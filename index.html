@@ -1,302 +1,234 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Контрольная работа — 5 класс</title>
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Все действия с рациональными числами — мини‑игра</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Comfortaa', cursive;
-      background: #fff8f5;
-      color: #333;
-      margin: 0;
-      padding: 0;
+    :root{ --bg:#fff7fb; --card:#ffffffcc; --ink:#7a2052; --muted:#9c3a74; --accent:#ff91a4; --accent-2:#ffd7a8; --mint:#c9f2e9; --beige:#fff1e6; --good:#27ae60; --bad:#e74c3c; --shadow:0 10px 30px rgba(159,85,140,.15); --radius:22px; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Poppins,Nunito,sans-serif;color:var(--ink);background:
+      radial-gradient(1000px 600px at 0% 0%, #ffe7f0 0%, transparent 55%),
+      radial-gradient(900px 600px at 100% 0%, #e9fff7 0%, transparent 55%),
+      var(--bg);
     }
-    header {
-      background: linear-gradient(90deg, #ffdde1, #ee9ca7);
-      padding: 20px;
-      text-align: center;
-      color: #333;
-      border-bottom: 4px solid #fcbcb8;
-    }
-    h1 {
-      margin: 0;
-      font-size: 2em;
-    }
-    section {
-      padding: 20px;
-      max-width: 900px;
-      margin: auto;
-    }
-    .task {
-      background: #fff;
-      border: 2px solid #f7c6c7;
-      border-radius: 20px;
-      padding: 15px;
-      margin: 15px 0;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    }
-    input[type=text] {
-      border: 2px solid #f7c6c7;
-      border-radius: 10px;
-      padding: 5px;
-      margin: 5px 0;
-      width: 200px;
-    }
-    button {
-      background: #ffd1dc;
-      border: none;
-      border-radius: 10px;
-      padding: 8px 15px;
-      margin: 5px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    button:hover {
-      background: #ffb6c1;
-    }
-    .hidden {
-      display: none;
-    }
-    .lives {
-      font-weight: bold;
-      color: #e75480;
-    }
-    .subscribe {
-      display: block;
-      text-align: center;
-      margin: 30px 0;
-    }
-    .subscribe a {
-      background: #b2f7ef;
-      padding: 12px 20px;
-      border-radius: 15px;
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
+    .wrap{max-width:980px;margin:auto;padding:20px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow)}
+    header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+    h1{font-size:clamp(20px,4vw,32px);margin:0}
+    .controls{display:flex;gap:10px}
+    button{border:none;cursor:pointer;border-radius:14px;padding:10px 16px;font-weight:700;box-shadow:var(--shadow);background:linear-gradient(180deg,#ffd1dc,#ffabba);} button.ghost{background:#fff}
+    .screen{margin-top:20px;display:grid;gap:20px}
+    .card{background:#fff;border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+    .problem{font-size:clamp(20px,5vw,36px);font-weight:800;text-align:center}
+    .chip{padding:8px 12px;border-radius:999px;background:#ffe9f0;font-weight:800;box-shadow:var(--shadow)}
+    .opt{padding:10px 14px;border-radius:12px;background:#fff;box-shadow:var(--shadow);cursor:pointer}
+    .toast{position:fixed;bottom:-80px;left:50%;transform:translateX(-50%);background:#fff;padding:10px 16px;border-radius:12px;box-shadow:var(--shadow);transition:all .4s ease}
+    .toast.show{bottom:20px}
+    .level-ind{width:100%;height:10px;background:#f7e8f0;border-radius:999px;overflow:hidden;margin-top:10px}
+    .level-fill{height:100%;width:0;background:linear-gradient(90deg,#ff9fb2,#ffd29f,#b7f0e6);transition:.3s}
+    .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .dzone{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
   </style>
 </head>
 <body>
-  <header>
-    <h1>Контрольная работа — 5 класс</h1>
-    <p>Темы: десятичная запись натуральных чисел (разряды и классы), отрезок и ломаная (без координат), вычисления в столбик</p>
-  </header>
-
-  <section>
-    <h2>Инструкция</h2>
-    <p>В этой контрольной у тебя есть <span class="lives" id="lives">5 жизней</span>. Выполни все задания. Домашка откроется, если твой результат будет не менее 75%.</p>
-  </section>
-
-  <section id="practice">
-    <h2>Задания</h2>
-
-    <!-- 1 -->
-    <div class="task">
-      <p><b>1.</b> Запиши число словами как цифрами: «семь миллионов двадцать пять тысяч сорок».</p>
-      <input type="text" id="t1">
-      <button onclick="check(1,'7025040')">Проверить</button>
-      <button onclick="hint(1,'7 000 000 + 25 000 + 40 = 7 025 040 → 7025040')">Подсказка</button>
-      <p id="r1"></p>
-    </div>
-
-    <!-- 2 -->
-    <div class="task">
-      <p><b>2.</b> Сколько нулей в записи числа 1203004000?</p>
-      <input type="text" id="t2">
-      <button onclick="check(2,'6')">Проверить</button>
-      <button onclick="hint(2,'Посчитай все цифры 0 в числе 1 203 004 000')">Подсказка</button>
-      <p id="r2"></p>
-    </div>
-
-    <!-- 3 -->
-    <div class="task">
-      <p><b>3.</b> Какая цифра стоит в разряде десятков тысяч в числе 534270?</p>
-      <input type="text" id="t3">
-      <button onclick="check(3,'3')">Проверить</button>
-      <button onclick="hint(3,'534270 = 5(сот.тыс), <b>3</b>(десят.тыс), 4(тыс), 2(сот), 7(десят), 0(ед)')">Подсказка</button>
-      <p id="r3"></p>
-    </div>
-
-    <!-- 4 -->
-    <div class="task">
-      <p><b>4.</b> Составь наибольшее число из цифр 0, 5, 2, 5, 0, 1 (каждую используй один раз).</p>
-      <input type="text" id="t4">
-      <button onclick="check(4,'552100')">Проверить</button>
-      <button onclick="hint(4,'Расположи цифры по убыванию, нули в конце: 5,5,2,1,0,0 → 552100')">Подсказка</button>
-      <p id="r4"></p>
-    </div>
-
-    <!-- 5 -->
-    <div class="task">
-      <p><b>5.</b> Округли до тысяч: 78650 → ?</p>
-      <input type="text" id="t5">
-      <button onclick="check(5,'79000')">Проверить</button>
-      <button onclick="hint(5,'Смотрим на сотни: 650 ≥ 500 → округляем вверх: 79 000')">Подсказка</button>
-      <p id="r5"></p>
-    </div>
-
-    <!-- 6 -->
-    <div class="task">
-      <p><b>6.</b> Ломаная имеет звенья длиной 7 см, 9 см, 7 см и 9 см. Найди её длину.</p>
-      <input type="text" id="t6">
-      <button onclick="check(6,'32')">Проверить</button>
-      <button onclick="hint(6,'7+9+7+9 = 32 см')">Подсказка</button>
-      <p id="r6"></p>
-    </div>
-
-    <!-- 7 -->
-    <div class="task">
-      <p><b>7.</b> Отрезок AB = 18 см. Точка C делит его на части: AC = 11 см и CB = ?</p>
-      <input type="text" id="t7">
-      <button onclick="check(7,'7')">Проверить</button>
-      <button onclick="hint(7,'CB = AB − AC = 18 − 11 = 7 см')">Подсказка</button>
-      <p id="r7"></p>
-    </div>
-
-    <!-- 8 -->
-    <div class="task">
-      <p><b>8.</b> К ломаной из трёх звеньев (12 см, 15 см, 18 см) добавили ещё одно звено, и периметр стал 70 см. Найди длину нового звена.</p>
-      <input type="text" id="t8">
-      <button onclick="check(8,'25')">Проверить</button>
-      <button onclick="hint(8,'12+15+18=45, 70−45=25 см')">Подсказка</button>
-      <p id="r8"></p>
-    </div>
-
-    <!-- 9 -->
-    <div class="task">
-      <p><b>9.</b> Вычисли столбиком: 4870 − (956 + 789)</p>
-      <input type="text" id="t9">
-      <button onclick="check(9,'3125')">Проверить</button>
-      <button onclick="hint(9,'Сначала в скобках: 956+789=1745, затем 4870−1745=3125')">Подсказка</button>
-      <p id="r9"></p>
-    </div>
-
-    <!-- 10 -->
-    <div class="task">
-      <p><b>10.</b> Вычисли столбиком: 2406 + 3994 + 120 − 817</p>
-      <input type="text" id="t10">
-      <button onclick="check(10,'5703')">Проверить</button>
-      <button onclick="hint(10,'2406+3994=6400, 6400+120=6520, 6520−817=5703')">Подсказка</button>
-      <p id="r10"></p>
-    </div>
-
-    <!-- 11 -->
-    <div class="task">
-      <p><b>11.</b> Умножь столбиком: 408 × 25</p>
-      <input type="text" id="t11">
-      <button onclick="check(11,'10200')">Проверить</button>
-      <button onclick="hint(11,'408×25 = 408×100÷4 = 40800÷4 = 10200')">Подсказка</button>
-      <p id="r11"></p>
-    </div>
-
-    <!-- 12 -->
-    <div class="task">
-      <p><b>12.</b> Раздели столбиком: 6720 ÷ 16</p>
-      <input type="text" id="t12">
-      <button onclick="check(12,'420')">Проверить</button>
-      <button onclick="hint(12,'16×400=6400, остаток 320; 16×20=320 → 400+20=420')">Подсказка</button>
-      <p id="r12"></p>
-    </div>
-
-    <!-- 13 -->
-    <div class="task">
-      <p><b>13.</b> Вычисли: (125 × 48) − (250 × 24)</p>
-      <input type="text" id="t13">
-      <button onclick="check(13,'0')">Проверить</button>
-      <button onclick="hint(13,'125×48=6000 и 250×24=6000, разность 0')">Подсказка</button>
-      <p id="r13"></p>
-    </div>
-
-    <!-- 14 -->
-    <div class="task">
-      <p><b>14.</b> Запиши число словами как цифрами: «четыреста семь тысяч восемьдесят два».</p>
-      <input type="text" id="t14">
-      <button onclick="check(14,'407082')">Проверить</button>
-      <button onclick="hint(14,'400 000 + 7 000 + 80 + 2 = 407082')">Подсказка</button>
-      <p id="r14"></p>
-    </div>
-
-    <!-- 15 -->
-    <div class="task">
-      <p><b>15.</b> Запиши наибольшее 7-значное число, у которого цифра 5 встречается три раза, а остальные цифры разные и меньше 5.</p>
-      <input type="text" id="t15">
-      <button onclick="check(15,'5554321')">Проверить</button>
-      <button onclick="hint(15,'Максимум — три пятёрки в начале: 5554321')">Подсказка</button>
-      <p id="r15"></p>
-    </div>
-
-    <!-- 16 -->
-    <div class="task">
-      <p><b>16.</b> Какое число получится, если к числу 300000 прибавить 407?</p>
-      <input type="text" id="t16">
-      <button onclick="check(16,'300407')">Проверить</button>
-      <button onclick="hint(16,'300000 + 407 = 300407')">Подсказка</button>
-      <p id="r16"></p>
-    </div>
-
-    <!-- 17 -->
-    <div class="task">
-      <p><b>17.</b> Запиши число: «девять миллионов сорок тысяч пять».</p>
-      <input type="text" id="t17">
-      <button onclick="check(17,'9040005')">Проверить</button>
-      <button onclick="hint(17,'9 000 000 + 40 000 + 5 = 9040005')">Подсказка</button>
-      <p id="r17"></p>
-    </div>
-
-  </section>
-
-  <section id="homework" class="hidden">
-    <h2>Домашнее задание</h2>
-    <p>
-      1) Придумай 5 чисел и запиши каждое в виде суммы разрядных слагаемых (например, 30520 = 30000+500+20).<br>
-      2) Нарисуй две разные ломаные на клетчатой бумаге (не менее 4 звеньев) и найди их длины.<br>
-      3) Подготовь по 2 примера на сложение/вычитание/умножение/деление в столбик (с натуральными числами) и реши их.
-    </p>
-  </section>
-
-  <div class="subscribe">
-    <a href="https://t.me/lera_easy_math" target="_blank">Подписаться @lera_easy_math</a>
+  <div class="wrap">
+    <header>
+      <h1>Все действия с рациональными числами</h1>
+      <div class="controls">
+        <button id="btnRestart" class="ghost">↻ Сброс</button>
+        <button id="btnNext">Дальше →</button>
+        <button id="btnSub">★ Подписаться</button>
+      </div>
+    </header>
+    <div class="level-ind"><div class="level-fill" id="levelFill"></div></div>
+    <section id="screen" class="screen"></section>
+    <div id="toast" class="toast">Умничка! 🌟</div>
   </div>
 
   <script>
-    let score = 0;
-    let total = 17;
-    let lives = 5;
+    // ===== Helpers =====
+    const $ = s => document.querySelector(s);
+    const rnd = (a,b) => Math.floor(Math.random()*(b-a+1))+a;
+    const pick = a => a[Math.floor(Math.random()*a.length)];
+    const showToast = (t,g=true) => { const el=$('#toast'); el.textContent=t; el.style.background=g?'#fff':'#ffe5ea'; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),1100); };
 
-    function check(n, ans) {
-      let input = document.getElementById('t'+n).value.trim();
-      let res = document.getElementById('r'+n);
-      if (input == ans) {
-        res.innerHTML = '✅ Верно!';
-        score++;
-      } else {
-        res.innerHTML = '❌ Ошибка';
-        lives--;
-        document.getElementById('lives').innerText = lives + ' жизней';
-        if (lives <= 0) {
-          alert('У тебя закончились жизни!');
-          document.querySelectorAll('input,button').forEach(el => el.disabled = true);
-        }
-      }
+    const levelFill=$('#levelFill');
+    const CHANNEL_URL='https://t.me/lera_easy_math';
 
-      if (n == total) {
-        let percent = Math.round(score / total * 100);
-        if (percent >= 75) {
-          document.getElementById('homework').classList.remove('hidden');
-          alert('Молодец! Ты набрал ' + percent + '%. Домашка открыта.');
-        } else {
-          alert('Твой результат ' + percent + '%. Домашка не открыта.');
-        }
-      }
+    const LEVELS=[
+      {kind:'mcq-plus', name:'Сложение'},
+      {kind:'transform-minus', name:'Найди пропуск'},
+      {kind:'sign-table', name:'Умножение (знаки)'},
+      {kind:'match', name:'Сопоставление'},
+      {kind:'drag-sign-div', name:'Деление (знак+величина)'},
+      {kind:'fractions', name:'Дроби: целый ответ'}
+    ];
+
+    let state={levelIndex:0,score:0};
+
+    $('#btnRestart').onclick=()=>{state={levelIndex:0,score:0};renderLevel();progress()};
+    $('#btnNext').onclick=()=>{if(state.levelIndex<LEVELS.length-1){state.levelIndex++;renderLevel();progress()}else showFinal()};
+    $('#btnSub').onclick=()=>window.open(CHANNEL_URL,'_blank');
+
+    const autoAdvance=(d=900)=>setTimeout(()=>$('#btnNext').click(),d);
+    const progress=()=>{ levelFill.style.width=`${state.levelIndex/(LEVELS.length-1)*100}%`; };
+
+    const screen=$('#screen');
+
+    const fmt = (n)=> (Object.is(n,-0)||n===0)? '0' : n.toString();
+    const withSign = (op,b)=> ((op==='+'||op==='−') && b<0) ? `${op} (${fmt(b)})` : `${op} ${fmt(b)}`;
+    const createHint = (text)=>{ const w=document.createElement('div'); w.className='card'; w.style.display='none'; w.innerHTML=`<div class="chip" style="background:#fff9f2">${text}</div>`; return w; };
+
+    function renderLevel(){
+      screen.innerHTML='';
+      const {kind} = LEVELS[state.levelIndex];
+      if(kind==='mcq-plus') renderPlus();
+      if(kind==='transform-minus') renderMinus();
+      if(kind==='sign-table') renderTimes();
+      if(kind==='match') renderMatch();
+      if(kind==='drag-sign-div') renderDivide();
+      if(kind==='fractions') renderFractions();
     }
 
-    function hint(n, text) {
-      document.getElementById('r'+n).innerHTML = '💡 Подсказка: ' + text;
+    // ===== Level 1: Сложение (ввод) =====
+    function makeAddProblem(){ let a=rnd(-15,15), b=rnd(-15,15); while(a===0 && b===0){ a=rnd(-15,15); b=rnd(-15,15);} return {expr:`${fmt(a)} ${withSign('+',b)}`, ans:a+b}; }
+    function renderPlus(){
+      const card=document.createElement('div'); card.className='card';
+      card.innerHTML=`<div class="problem" id="p1"></div>
+      <div class="dzone">
+        <input id="ansAdd" inputmode="numeric" class="chip" style="background:#f2fffb" placeholder="Ответ"/>
+        <button id="checkAdd">Проверить</button>
+        <button id="toggleH1" class="ghost">Подсказка</button>
+      </div>`; screen.appendChild(card);
+      const hint=createHint('Одинаковые знаки — складываем модули и ставим тот же знак. Разные — вычитаем меньший модуль из большего и ставим знак большего по модулю.'); screen.appendChild(hint);
+      card.querySelector('#toggleH1').onclick=()=>{ hint.style.display = hint.style.display==='none'?'block':'none'; };
+      let q=0, need=5, cur; const pEl=card.querySelector('#p1'); const input=card.querySelector('#ansAdd'); const btn=card.querySelector('#checkAdd');
+      function nextQ(){ if(q>=need){ showToast('Уровень пройден! ✨'); autoAdvance(); return; } cur=makeAddProblem(); pEl.textContent=cur.expr; input.value=''; input.focus(); }
+      btn.onclick=()=>{ const val=Number(input.value.replace(',','.')); if(val===cur.ans){ showToast('Правильно! 💖'); q++; state.score+=10; nextQ(); } else { showToast('Ещё разок!', false);} };
+      input.addEventListener('keydown',e=>{ if(e.key==='Enter') btn.click(); });
+      nextQ();
     }
+
+    // ===== Level 2: Найди пропуск =====
+    function renderMinus(){
+      const card=document.createElement('div'); card.className='card';
+      card.innerHTML=`<div class="problem" id="expr2"></div>
+      <div class="dzone">
+        <input id="ansMiss" inputmode="numeric" class="chip" style="background:#f2fffb" placeholder="Число в пустом месте"/>
+        <button id="checkMiss">Проверить</button>
+        <button id="toggleH2" class="ghost">Подсказка</button>
+      </div>`; screen.appendChild(card);
+      const hint=createHint('Перенос через = меняет знак. a − b = a + (−b).'); screen.appendChild(hint); card.querySelector('#toggleH2').onclick=()=>{ hint.style.display = hint.style.display==='none'?'block':'none'; };
+
+      const exprEl=card.querySelector('#expr2'); const input=card.querySelector('#ansMiss'); const btn=card.querySelector('#checkMiss');
+      let step=0, need=5, cur=null, lastExpr='';
+      function makeMissingProblem(){ let pr; do{ const t=pick(['a-b','x-b','a+x']); let a=rnd(-12,12), b=rnd(-12,12); while(a===0&&b===0){ a=rnd(-12,12); b=rnd(-12,12);} if(t==='a-b'){ const c=a-b; pr={expr:`${fmt(a)} − □ = ${fmt(c)}`, ans:b}; } else if(t==='x-b'){ const c=a-b; pr={expr:`□ − ${fmt(b)} = ${fmt(c)}`, ans:a}; } else { const c2=a+b; pr={expr:`${fmt(a)} + □ = ${fmt(c2)}`, ans:b}; } } while(pr.expr===lastExpr); lastExpr=pr.expr; return pr; }
+      function init(){ cur=makeMissingProblem(); exprEl.textContent=cur.expr; input.value=''; input.focus(); }
+      btn.onclick=()=>{ const val=Number(input.value.replace(',','.')); if(val===cur.ans){ showToast('Есть контакт! ✅'); step++; state.score+=12; if(step>=need){ showToast('Уровень пройден! ✨'); autoAdvance(); } else { init(); } } else { showToast('Мимо, попробуй ещё', false); } };
+      input.addEventListener('keydown',e=>{ if(e.key==='Enter') btn.click(); });
+      init();
+    }
+
+    // ===== Level 3: Умножение (знак) =====
+    function renderTimes(){
+      const card=document.createElement('div'); card.className='card';
+      card.innerHTML=`<div class="grid" id="signGrid"></div>
+      <div style="text-align:center"><button id="toggleH3" class="ghost">Подсказка</button></div>`; screen.appendChild(card);
+      const hint=createHint('Одинаковые знаки ( +×+ , −×− ) дают плюс. Разные ( +×− , −×+ ) — минус.'); screen.appendChild(hint); card.querySelector('#toggleH3').onclick=()=>{ hint.style.display = hint.style.display==='none'?'block':'none'; };
+
+      const grid=card.querySelector('#signGrid'); let solved=0; const items=8; const combos=['++','+-','-+','--'];
+      function makeRow(pair){ const A=pair[0]==='+'?'+':'−'; const B=pair[1]==='+'?'+':'−'; const ask=`${A} × ${B}`; const ans=(A===B)? '+':'−'; const row=document.createElement('div'); row.className='card'; row.style.padding='12px'; row.innerHTML=`<div class="problem" style="font-size:clamp(18px,4vw,28px)">${ask} = ?</div><div class="dzone"><button class="opt">+</button><button class="opt">−</button></div>`; row.querySelectorAll('.opt').forEach(b=>{ b.onclick=()=>{ if(b.textContent===ans){ showToast('Верно! 🌿'); solved++; row.style.opacity=.55; row.querySelectorAll('button').forEach(x=>x.disabled=true); state.score+=6; if(solved>=items){ showToast('Уровень пройден! ✨'); autoAdvance(); } } else { showToast('Нет, посмотри правило', false); } }; }); return row; }
+      function spawn(){ grid.innerHTML=''; const out=[]; let last=null; while(out.length<items){ const pack=combos.slice().sort(()=>Math.random()-.5); for(const p of pack){ if(out.length>=items) break; if(p!==last){ out.push(p); last=p; } } } out.forEach(p=> grid.appendChild(makeRow(p))); }
+      spawn();
+    }
+
+    // ===== Level 4: Сопоставление =====
+    function renderMatch(){
+      const card=document.createElement('div'); card.className='card';
+      card.innerHTML=`
+        <div class="level-ind" style="height:12px"><div class="level-fill" id="pairBar" style="width:0%"></div></div>
+        <div class="card" id="left" style="margin-top:10px"></div>
+        <div class="card" id="right" style="margin-top:10px"></div>
+        <div style="text-align:center"><button id="toggleHM" class="ghost">Подсказка</button></div>`; screen.appendChild(card);
+      const hint=createHint('Перетащи число к соответствующему выражению. После удачного переноса фишка исчезает.'); screen.appendChild(hint); card.querySelector('#toggleHM').onclick=()=>{ hint.style.display = hint.style.display==='none'?'block':'none'; };
+
+      const left=card.querySelector('#left'); const right=card.querySelector('#right'); const bar=card.querySelector('#pairBar');
+      function makePair(){ const t=pick(['add','sub','mul','div']); if(t==='add'){ let a=rnd(-9,9),b=rnd(-9,9); while(a===0&&b===0){ a=rnd(-9,9); b=rnd(-9,9);} return {expr:`${fmt(a)} ${withSign('+',b)}`, val:a+b}; } if(t==='sub'){ let a=rnd(-9,9), b=rnd(-9,9); return {expr:`${fmt(a)} − ${fmt(b)}`, val:a-b}; } if(t==='mul'){ let a=rnd(-9,9), b=rnd(-9,9); return {expr:`${fmt(a)} × ${fmt(b)}`, val:a*b}; } let d=rnd(1,9), q=rnd(1,9); let a=d*q, b=d; if(Math.random()<.5) a=-a; if(Math.random()<.5) b=-b; return {expr:`${fmt(a)} ÷ ${fmt(b)}`, val:a/b}; }
+      const pairs = Array.from({length:6}, makePair);
+      const answers = pairs.map((p,i)=>({val:p.val, id:i})).sort(()=>Math.random()-.5);
+      pairs.forEach((p,i)=>{ const row=document.createElement('div'); row.className='dzone'; row.style.justifyContent='space-between'; row.style.margin='6px 0'; row.innerHTML=`<div class="problem" style="font-size:clamp(18px,4vw,28px)">${p.expr} = </div><div class="chip" style="background:#fff9f2;min-width:64px;text-align:center" data-target="${i}">?</div>`; left.appendChild(row); });
+      answers.forEach(({val,id})=>{ const chip=document.createElement('div'); chip.className='chip draggable'; chip.setAttribute('draggable','true'); chip.dataset.id=id; chip.textContent=val.toString(); chip.style.margin='6px'; chip.style.background='#e8fff7'; chip.addEventListener('dragstart',e=>{ e.dataTransfer.setData('text/plain', chip.dataset.id); }); right.appendChild(chip); });
+      let solved=0; const total=pairs.length;
+      left.querySelectorAll('[data-target]').forEach(slot=>{
+        slot.addEventListener('dragover', e=>e.preventDefault());
+        slot.addEventListener('drop', e=>{ e.preventDefault(); const id=e.dataTransfer.getData('text/plain'); if(slot.dataset.filled) return; if(slot.dataset.target===id){ const chip = right.querySelector(`.draggable[data-id="${id}"]`); if(chip){ slot.textContent=chip.textContent; chip.remove(); slot.dataset.filled='1'; solved++; bar.style.width=(solved/total*100)+'%'; if(solved>=total){ showToast('Уровень пройден! ✨'); autoAdvance(); } } } else { showToast('Это к другой паре', false); } });
+      });
+    }
+
+    // ===== Level 5: Деление (знак+величина) =====
+    function makeDivProblem(){ let b=rnd(1,9); let a=b*rnd(1,9); if(Math.random()<.5) a=-a; if(Math.random()<.5) b=-b; return { a,b, expr:`${fmt(a)} ÷ ${fmt(b)}`, sign:(Math.sign(a)===Math.sign(b))?'+':'−', mag:Math.abs(a)/Math.abs(b) }; }
+    function renderDivide(){
+      const card=document.createElement('div'); card.className='card';
+      card.innerHTML=`
+        <div class="level-ind" style="height:12px"><div class="level-fill" id="innerBar" style="width:0%"></div></div>
+        <div class="problem" id="divExpr" style="margin-top:10px"></div>
+        <div class="dzone" style="gap:14px;justify-content:center">
+          <div class="draggable chip" draggable="true" data-sym="+">+</div>
+          <div class="draggable chip" draggable="true" data-sym="−">−</div>
+          <div class="chip" id="signSlot" style="min-width:60px;background:#fff9f2">?</div>
+          <input id="mag" inputmode="numeric" class="chip" style="background:#fff9f2" placeholder="Величина"/>
+          <button id="checkDiv">Проверить</button>
+        </div>
+        <div style="text-align:center"><button id="toggleH4" class="ghost">Подсказка</button></div>`; screen.appendChild(card);
+      const hint=createHint('Знак как в умножении. Потом делим модули: |a| ÷ |b|.'); screen.appendChild(hint); card.querySelector('#toggleH4').onclick=()=>{ hint.style.display = hint.style.display==='none'?'block':'none'; };
+
+      const innerBar=card.querySelector('#innerBar'); const exprEl=card.querySelector('#divExpr'); const signSlot=card.querySelector('#signSlot'); const magInput=card.querySelector('#mag'); const btn=card.querySelector('#checkDiv');
+      let done=0, need=6, cur=null;
+      function init(){ cur=makeDivProblem(); exprEl.textContent=cur.expr; signSlot.textContent='?'; signSlot.dataset.value=''; magInput.value=''; innerBar.style.width=(done/need*100)+'%'; }
+      card.querySelectorAll('[draggable]').forEach(el=>{ el.addEventListener('dragstart', e=>{ e.dataTransfer.setData('text/plain', el.dataset.sym); }); });
+      signSlot.addEventListener('dragover', e=>e.preventDefault());
+      signSlot.addEventListener('drop', e=>{ e.preventDefault(); const s=e.dataTransfer.getData('text/plain'); signSlot.textContent=s; signSlot.dataset.value=s; });
+      btn.onclick=()=>{ const okSign=(signSlot.dataset.value===cur.sign); const val=Number(magInput.value.replace(',','.')); if(okSign && val===cur.mag){ showToast('Отлично! 🎉'); done++; state.score+=10; if(done>=need){ showToast('Уровень пройден! ✨'); autoAdvance(); } else { init(); } innerBar.style.width=(done/need*100)+'%'; } else if(!okSign){ showToast('Знак не тот', false); } else { showToast('Проверь деление модулей', false); } };
+      init();
+    }
+
+    // ===== Level 6: Дроби/десятичные — только ЦЕЛЫЕ ответы =====
+    function gcd(a,b){ a=Math.abs(a); b=Math.abs(b); while(b){ [a,b]=[b,a%b]; } return a||1; }
+    function fracToStr(n,d){ const s = n<0?'−':''; return `${s}${Math.abs(n)}/${d}`; }
+    function makeIntFracTask(){
+      const t = pick(['frac2int','dec2int','addFrac','subFrac']);
+      if(t==='frac2int'){
+        const d=rnd(2,9); const k=rnd(-5,5)||1; const n=d*k; return {expr:`${fracToStr(n,d)} = ?`, ans:k};
+      }
+      if(t==='dec2int'){
+        const k=rnd(-9,9); const s=`${k}.0`.replace('-','−'); return {expr:`${s} = ?`, ans:k};
+      }
+      const d=rnd(2,9);
+      const m = rnd(-6,6);
+      const n1 = rnd(-9,9);
+      const opAdd = (t==='addFrac');
+      const n2 = opAdd ? (m*d - n1) : (n1 - m*d); // формулы подобраны так, чтобы ответ был m
+      return {expr:`${fracToStr(n1,d)} ${opAdd?'+':'−'} ${fracToStr(n2,d)} = ?`, ans:m};
+    }
+    function renderFractions(){
+      const card=document.createElement('div'); card.className='card';
+      card.innerHTML=`<div class="problem" id="frExpr"></div>
+      <div class="dzone"><input id="frAns" class="chip" placeholder="целое число"/>
+      <button id="frCheck">Ок</button>
+      <button id="toggleH5" class="ghost">Подсказка</button></div>`; screen.appendChild(card);
+      const hint=createHint('Всегда получаем ЦЕЛОЕ. Примеры: 6/3 → 2, 3.0 → 3, 5/8 + 3/8 → 1.'); screen.appendChild(hint); card.querySelector('#toggleH5').onclick=()=>{ hint.style.display = hint.style.display==='none'?'block':'none'; };
+      const exprEl=card.querySelector('#frExpr'); const input=card.querySelector('#frAns'); const btn=card.querySelector('#frCheck'); let done=0, need=6, cur;
+      function ask(){ cur=makeIntFracTask(); exprEl.textContent=cur.expr; input.value=''; input.focus(); }
+      btn.onclick=()=>{ const val = Number(input.value.replace(',','.')); if(!Number.isInteger(val)){ showToast('Нужно целое число', false); return; } if(val===cur.ans){ showToast('Супер! ✅'); done++; state.score+=14; if(done>=need){ showToast('Уровень пройден! ✨'); autoAdvance(); } else { ask(); } } else { showToast('Не совпало', false); } };
+      input.addEventListener('keydown',e=>{ if(e.key==='Enter') btn.click(); });
+      ask();
+    }
+
+    function showFinal(){ screen.innerHTML='<div class="card"><div class="problem">Финиш! Очки: '+state.score+'</div></div>'; }
+
+    // start
+    renderLevel(); progress();
   </script>
 </body>
 </html>
