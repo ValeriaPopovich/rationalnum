@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Контрольная работа — 5 класс</title>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Comfortaa', cursive;
+      background: #fff8f5;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: linear-gradient(90deg, #ffdde1, #ee9ca7);
+      padding: 20px;
+      text-align: center;
+      color: #333;
+      border-bottom: 4px solid #fcbcb8;
+    }
+    h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+    section {
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    .task {
+      background: #fff;
+      border: 2px solid #f7c6c7;
+      border-radius: 20px;
+      padding: 15px;
+      margin: 15px 0;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    }
+    input[type=text] {
+      border: 2px solid #f7c6c7;
+      border-radius: 10px;
+      padding: 5px;
+      margin: 5px 0;
+      width: 200px;
+    }
+    button {
+      background: #ffd1dc;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 15px;
+      margin: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #ffb6c1;
+    }
+    .hidden {
+      display: none;
+    }
+    .lives {
+      font-weight: bold;
+      color: #e75480;
+    }
+    .subscribe {
+      display: block;
+      text-align: center;
+      margin: 30px 0;
+    }
+    .subscribe a {
+      background: #b2f7ef;
+      padding: 12px 20px;
+      border-radius: 15px;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Контрольная работа — 5 класс</h1>
+    <p>Темы: десятичная запись натуральных чисел (разряды и классы), отрезок и ломаная (без координат), вычисления в столбик</p>
+  </header>
+
+  <section>
+    <h2>Инструкция</h2>
+    <p>В этой контрольной у тебя есть <span class="lives" id="lives">5 жизней</span>. Выполни все задания. Домашка откроется, если твой результат будет не менее 75%.</p>
+  </section>
+
+  <section id="practice">
+    <h2>Задания</h2>
+
+    <!-- 1 -->
+    <div class="task">
+      <p><b>1.</b> Запиши число словами как цифрами: «семь миллионов двадцать пять тысяч сорок».</p>
+      <input type="text" id="t1">
+      <button onclick="check(1,'7025040')">Проверить</button>
+      <button onclick="hint(1,'7 000 000 + 25 000 + 40 = 7 025 040 → 7025040')">Подсказка</button>
+      <p id="r1"></p>
+    </div>
+
+    <!-- 2 -->
+    <div class="task">
+      <p><b>2.</b> Сколько нулей в записи числа 1203004000?</p>
+      <input type="text" id="t2">
+      <button onclick="check(2,'6')">Проверить</button>
+      <button onclick="hint(2,'Посчитай все цифры 0 в числе 1 203 004 000')">Подсказка</button>
+      <p id="r2"></p>
+    </div>
+
+    <!-- 3 -->
+    <div class="task">
+      <p><b>3.</b> Какая цифра стоит в разряде десятков тысяч в числе 534270?</p>
+      <input type="text" id="t3">
+      <button onclick="check(3,'3')">Проверить</button>
+      <button onclick="hint(3,'534270 = 5(сот.тыс), <b>3</b>(десят.тыс), 4(тыс), 2(сот), 7(десят), 0(ед)')">Подсказка</button>
+      <p id="r3"></p>
+    </div>
+
+    <!-- 4 -->
+    <div class="task">
+      <p><b>4.</b> Составь наибольшее число из цифр 0, 5, 2, 5, 0, 1 (каждую используй один раз).</p>
+      <input type="text" id="t4">
+      <button onclick="check(4,'552100')">Проверить</button>
+      <button onclick="hint(4,'Расположи цифры по убыванию, нули в конце: 5,5,2,1,0,0 → 552100')">Подсказка</button>
+      <p id="r4"></p>
+    </div>
+
+    <!-- 5 -->
+    <div class="task">
+      <p><b>5.</b> Округли до тысяч: 78650 → ?</p>
+      <input type="text" id="t5">
+      <button onclick="check(5,'79000')">Проверить</button>
+      <button onclick="hint(5,'Смотрим на сотни: 650 ≥ 500 → округляем вверх: 79 000')">Подсказка</button>
+      <p id="r5"></p>
+    </div>
+
+    <!-- 6 -->
+    <div class="task">
+      <p><b>6.</b> Ломаная имеет звенья длиной 7 см, 9 см, 7 см и 9 см. Найди её длину.</p>
+      <input type="text" id="t6">
+      <button onclick="check(6,'32')">Проверить</button>
+      <button onclick="hint(6,'7+9+7+9 = 32 см')">Подсказка</button>
+      <p id="r6"></p>
+    </div>
+
+    <!-- 7 -->
+    <div class="task">
+      <p><b>7.</b> Отрезок AB = 18 см. Точка C делит его на части: AC = 11 см и CB = ?</p>
+      <input type="text" id="t7">
+      <button onclick="check(7,'7')">Проверить</button>
+      <button onclick="hint(7,'CB = AB − AC = 18 − 11 = 7 см')">Подсказка</button>
+      <p id="r7"></p>
+    </div>
+
+    <!-- 8 -->
+    <div class="task">
+      <p><b>8.</b> К ломаной из трёх звеньев (12 см, 15 см, 18 см) добавили ещё одно звено, и периметр стал 70 см. Найди длину нового звена.</p>
+      <input type="text" id="t8">
+      <button onclick="check(8,'25')">Проверить</button>
+      <button onclick="hint(8,'12+15+18=45, 70−45=25 см')">Подсказка</button>
+      <p id="r8"></p>
+    </div>
+
+    <!-- 9 -->
+    <div class="task">
+      <p><b>9.</b> Вычисли столбиком: 4870 − (956 + 789)</p>
+      <input type="text" id="t9">
+      <button onclick="check(9,'3125')">Проверить</button>
+      <button onclick="hint(9,'Сначала в скобках: 956+789=1745, затем 4870−1745=3125')">Подсказка</button>
+      <p id="r9"></p>
+    </div>
+
+    <!-- 10 -->
+    <div class="task">
+      <p><b>10.</b> Вычисли столбиком: 2406 + 3994 + 120 − 817</p>
+      <input type="text" id="t10">
+      <button onclick="check(10,'5703')">Проверить</button>
+      <button onclick="hint(10,'2406+3994=6400, 6400+120=6520, 6520−817=5703')">Подсказка</button>
+      <p id="r10"></p>
+    </div>
+
+    <!-- 11 -->
+    <div class="task">
+      <p><b>11.</b> Умножь столбиком: 408 × 25</p>
+      <input type="text" id="t11">
+      <button onclick="check(11,'10200')">Проверить</button>
+      <button onclick="hint(11,'408×25 = 408×100÷4 = 40800÷4 = 10200')">Подсказка</button>
+      <p id="r11"></p>
+    </div>
+
+    <!-- 12 -->
+    <div class="task">
+      <p><b>12.</b> Раздели столбиком: 6720 ÷ 16</p>
+      <input type="text" id="t12">
+      <button onclick="check(12,'420')">Проверить</button>
+      <button onclick="hint(12,'16×400=6400, остаток 320; 16×20=320 → 400+20=420')">Подсказка</button>
+      <p id="r12"></p>
+    </div>
+
+    <!-- 13 -->
+    <div class="task">
+      <p><b>13.</b> Вычисли: (125 × 48) − (250 × 24)</p>
+      <input type="text" id="t13">
+      <button onclick="check(13,'0')">Проверить</button>
+      <button onclick="hint(13,'125×48=6000 и 250×24=6000, разность 0')">Подсказка</button>
+      <p id="r13"></p>
+    </div>
+
+    <!-- 14 -->
+    <div class="task">
+      <p><b>14.</b> Запиши число словами как цифрами: «четыреста семь тысяч восемьдесят два».</p>
+      <input type="text" id="t14">
+      <button onclick="check(14,'407082')">Проверить</button>
+      <button onclick="hint(14,'400 000 + 7 000 + 80 + 2 = 407082')">Подсказка</button>
+      <p id="r14"></p>
+    </div>
+
+    <!-- 15 -->
+    <div class="task">
+      <p><b>15.</b> Запиши наибольшее 7-значное число, у которого цифра 5 встречается три раза, а остальные цифры разные и меньше 5.</p>
+      <input type="text" id="t15">
+      <button onclick="check(15,'5554321')">Проверить</button>
+      <button onclick="hint(15,'Максимум — три пятёрки в начале: 5554321')">Подсказка</button>
+      <p id="r15"></p>
+    </div>
+
+    <!-- 16 -->
+    <div class="task">
+      <p><b>16.</b> Какое число получится, если к числу 300000 прибавить 407?</p>
+      <input type="text" id="t16">
+      <button onclick="check(16,'300407')">Проверить</button>
+      <button onclick="hint(16,'300000 + 407 = 300407')">Подсказка</button>
+      <p id="r16"></p>
+    </div>
+
+    <!-- 17 -->
+    <div class="task">
+      <p><b>17.</b> Запиши число: «девять миллионов сорок тысяч пять».</p>
+      <input type="text" id="t17">
+      <button onclick="check(17,'9040005')">Проверить</button>
+      <button onclick="hint(17,'9 000 000 + 40 000 + 5 = 9040005')">Подсказка</button>
+      <p id="r17"></p>
+    </div>
+
+  </section>
+
+  <section id="homework" class="hidden">
+    <h2>Домашнее задание</h2>
+    <p>
+      1) Придумай 5 чисел и запиши каждое в виде суммы разрядных слагаемых (например, 30520 = 30000+500+20).<br>
+      2) Нарисуй две разные ломаные на клетчатой бумаге (не менее 4 звеньев) и найди их длины.<br>
+      3) Подготовь по 2 примера на сложение/вычитание/умножение/деление в столбик (с натуральными числами) и реши их.
+    </p>
+  </section>
+
+  <div class="subscribe">
+    <a href="https://t.me/lera_easy_math" target="_blank">Подписаться @lera_easy_math</a>
+  </div>
+
+  <script>
+    let score = 0;
+    let total = 17;
+    let lives = 5;
+
+    function check(n, ans) {
+      let input = document.getElementById('t'+n).value.trim();
+      let res = document.getElementById('r'+n);
+      if (input == ans) {
+        res.innerHTML = '✅ Верно!';
+        score++;
+      } else {
+        res.innerHTML = '❌ Ошибка';
+        lives--;
+        document.getElementById('lives').innerText = lives + ' жизней';
+        if (lives <= 0) {
+          alert('У тебя закончились жизни!');
+          document.querySelectorAll('input,button').forEach(el => el.disabled = true);
+        }
+      }
+
+      if (n == total) {
+        let percent = Math.round(score / total * 100);
+        if (percent >= 75) {
+          document.getElementById('homework').classList.remove('hidden');
+          alert('Молодец! Ты набрал ' + percent + '%. Домашка открыта.');
+        } else {
+          alert('Твой результат ' + percent + '%. Домашка не открыта.');
+        }
+      }
+    }
+
+    function hint(n, text) {
+      document.getElementById('r'+n).innerHTML = '💡 Подсказка: ' + text;
+    }
+  </script>
+</body>
+</html>
